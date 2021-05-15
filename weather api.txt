@@ -1,0 +1,30 @@
+ce96bebb0d2a102f5cda8e9f1d1b7c58
+
+https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid={API key}
+
+const getGeoLocation = async function (address) {
+  let location;
+  try {
+    //fetch geo location
+    let getGeo = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyA8-bJwYvWll9l7TwFW5b9TiJ9HMWPDljU`
+    );
+    //parse data
+    let geoData = await getGeo.json();
+    location = geoData.results[0].geometry.location;
+  } catch (error) {}
+  getWeather(location);
+};
+
+getGeoLocation('mitcham');
+
+getWeather = async function (location) {
+  console.log(location);
+  console.log(location.lat);
+  let getWeather = await fetch(
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lng}&exclude=minutely&units=metric&appid=ce96bebb0d2a102f5cda8e9f1d1b7c58`
+  );
+  let weatherData = await getWeather.json();
+  console.log(weatherData);
+  console.log(weatherData.current.sunrise);
+};
